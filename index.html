@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dream 4K IPTV — Official Global Server Network</title>
+    <meta name="google-site-verification" content="FwcqPU5itMpNcqYqtCihgicZKVwi3L6OI_1c7mr-75U">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KXBBNECFM5"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-KXBBNECFM5');
+    </script>
+    <meta name="description" content="Dream 4K IPTV subscriptions and reseller panel access with global server delivery, Full HD and 4K quality, EPG, movies, series, and 24/7 support.">
+    <link rel="canonical" href="https://dream4kiptv.tv/">
+    <!-- Tailwind CSS for modern responsive UI overlay -->
+    <script src="https://cdn.tailwindcss.com">
+</script>
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js">
+</script>
+    <!-- OrbitControls for camera interaction -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js">
+</script>
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Space+Grotesk:wght@500;700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background-color: #050811;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #f3f4f6;
+            user-select: none;
+        }
+
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        /* Gold metallic badge styling matching the logo */
+        .gold-badge {
+            background: linear-gradient(135deg, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fbf5b7 75%, #aa771c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 12px rgba(251, 245, 183, 0.3);
+        }
+
+        .gold-border-glow {
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.25), inset 0 0 15px rgba(212, 175, 55, 0.15);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        /* Glassmorphism panel styling */
+        .glass-panel {
+            background: rgba(10, 15, 29, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Custom scrollbar for HUD */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d4af37;
+            border-radius: 2px;
+        }
+
+        /* Pulse animation for active nodes */
+        @keyframes pulse-gold {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 10px #ffd700); }
+        }
+
+        .animate-pulse-gold {
+            animation: pulse-gold 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        /* DREAM 4K Logo Overlay Marker on 3D Space */
+        #traveling-logo {
+            position: absolute;
+            z-index: 10;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.2s ease;
+            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.8));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* SVG Gold Badge Graphic */
+        .badge-svg {
+            width: 90px;
+            height: auto;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.8));
+        }
+        .menu-toggle { display:none; }
+        @media (max-width: 640px) {
+            .site-nav { display:none; width:100%; flex-direction:column; align-items:stretch; gap:.25rem; border-top:1px solid rgba(251,191,36,.22); padding-top:.75rem; }
+            .site-nav.is-open { display:flex; }
+            .site-nav a { padding:.7rem .35rem; }
+            .menu-toggle { display:inline-flex; }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="relative overflow-hidden border-b border-amber-400/20 bg-[#050811] px-5 py-24 md:px-10 md:py-32">
+        <div class="absolute inset-0 opacity-30" style="background-image:linear-gradient(rgba(212,175,55,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(212,175,55,.12) 1px,transparent 1px);background-size:46px 46px">
+</div>
+        <header class="relative mx-auto mb-16 flex max-w-6xl flex-wrap items-center justify-between gap-4 rounded-2xl border border-amber-400/20 bg-[#060a13]/80 px-5 py-3 shadow-2xl shadow-black/20 backdrop-blur">
+<a href="./" class="text-lg font-extrabold tracking-wider text-white">DREAM <span class="gold-badge">4K IPTV</span>
+</a>
+<button class="menu-toggle items-center rounded-lg border border-amber-400/40 px-3 py-2 text-sm font-bold text-amber-200" type="button" aria-controls="site-navigation" aria-expanded="false">☰ <span class="sr-only">Open menu</span></button>
+<nav id="site-navigation" class="site-nav flex items-center gap-5 text-sm font-bold text-slate-300">
+<a href="./" class="text-amber-300">Home</a>
+<a href="subscriptions/" class="hover:text-amber-300">Subscription</a>
+<a href="reseller/" class="hover:text-amber-300">Reseller</a>
+<a href="#contact" class="hover:text-amber-300">Contact</a>
+</nav>
+</header>
+        <div class="relative mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[1.1fr_.9fr]">
+            <div>
+                <p class="mb-5 inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-4 py-2 text-xs font-bold text-emerald-300">
+<span class="h-2 w-2 rounded-full bg-emerald-400">
+</span> ALL SERVERS OPERATIONAL</p>
+                <h1 class="text-4xl font-extrabold leading-tight text-white md:text-6xl">Dream 4K IPTV<br>
+<span class="gold-badge">Direct subscriptions. Global delivery.</span>
+</h1>
+                <p class="mt-6 max-w-xl text-base leading-8 text-slate-300">Access one-connection IPTV plans or manage wholesale credits through the Dream 4K IPTV reseller panel.</p>
+                <div class="mt-8 flex flex-wrap gap-3">
+<a href="subscriptions/" class="rounded-xl bg-amber-500 px-6 py-4 text-sm font-bold text-slate-950 transition hover:bg-amber-400">View Subscription Plans</a>
+<a href="reseller/" class="rounded-xl border border-amber-400/50 px-6 py-4 text-sm font-bold text-amber-200 transition hover:bg-amber-400/10">Reseller Panel</a>
+</div>
+                <div class="mt-8 flex flex-wrap gap-5 text-sm text-slate-400">
+<span>32,000+ Channels</span>
+<span>Movies &amp; Series</span>
+<span>Full HD &amp; 4K</span>
+<span>24/7 Support</span>
+</div>
+            </div>
+            <div class="glass-panel gold-border-glow rounded-2xl p-6">
+<p class="font-mono text-xs text-amber-300">LIVE NETWORK STATUS</p>
+<div class="mt-5 grid grid-cols-2 gap-4 text-sm">
+<div class="rounded-xl bg-white/5 p-4">
+<p class="text-slate-400">Service Status</p>
+<b class="mt-1 block text-emerald-300">Normal</b>
+</div>
+<div class="rounded-xl bg-white/5 p-4">
+<p class="text-slate-400">Server Load</p>
+<b class="mt-1 block">12%</b>
+</div>
+<div class="rounded-xl bg-white/5 p-4">
+<p class="text-slate-400">Active Streams</p>
+<b class="mt-1 block">32,450</b>
+</div>
+<div class="rounded-xl bg-white/5 p-4">
+<p class="text-slate-400">Support</p>
+<a href="https://wa.me/212670779271" class="mt-1 block text-amber-300">WhatsApp</a>
+</div>
+</div>
+</div>
+        </div>
+    </section>
+
+    <section id="server-zone" class="relative h-screen min-h-[720px] overflow-hidden">
+
+    <div class="absolute left-1/2 top-[55%] z-30 w-full max-w-5xl -translate-x-1/2 -translate-y-1/2 px-5 text-center pointer-events-none">
+<div class="mx-auto max-w-4xl rounded-3xl border border-cyan-300/30 bg-[#020713]/80 px-6 py-6 shadow-2xl shadow-cyan-950/50 backdrop-blur-md md:px-10 md:py-8">
+<p class="font-mono text-xs font-bold tracking-[.24em] text-cyan-300">GLOBAL SERVER NETWORK</p>
+<h2 id="map-title" data-text="Global delivery, built for smooth playback." class="mt-3 text-4xl font-extrabold leading-tight text-cyan-200 drop-shadow-[0_0_18px_rgba(34,211,238,.5)] md:text-6xl" aria-label="Global delivery, built for smooth playback.">
+</h2>
+<p id="map-description" data-text="Dream 4K IPTV uses regional server infrastructure and intelligent routing to support reliable streaming around the world." class="mx-auto mt-4 max-w-3xl text-base font-bold leading-7 text-white md:text-lg" aria-label="Dream 4K IPTV uses regional server infrastructure and intelligent routing to support reliable streaming around the world.">
+</p>
+</div>
+</div>
+
+    <div id="canvas-container">
+</div>
+
+    <div id="traveling-logo" class="opacity-0">
+        <!-- SVG DREAM 4K Premium Gold Badge -->
+        <svg class="badge-svg" viewBox="0 0 280 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#C59B27" />
+                    <stop offset="30%" stop-color="#FDF0A6" />
+                    <stop offset="50%" stop-color="#D4AF37" />
+                    <stop offset="70%" stop-color="#FDF0A6" />
+                    <stop offset="100%" stop-color="#9A7116" />
+                </linearGradient>
+                <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="3" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+            </defs>
+            <!-- Main DREAM 4K Rounded Box -->
+            <rect x="35" y="40" width="155" height="70" rx="10" fill="url(#goldGrad)" />
+            <!-- Inner Cutout / Dark Shadow -->
+            <rect x="39" y="44" width="147" height="62" rx="8" fill="#0A0E17" opacity="0.15" />
+            
+            <!-- Cutout Text DREAM 4K -->
+            <text x="112" y="93" font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="48" fill="#050811" text-anchor="middle" letter-spacing="-1">4K</text>
+            <text x="111" y="92" font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="48" fill="url(#goldGrad)" text-anchor="middle" letter-spacing="-1">4K</text>
+            
+            <!-- Swoosh Arcs on Right -->
+            <path d="M 28,25 Q 210,12 255,80 Q 210,140 135,145 M 38,32 Q 220,20 265,80 Q 220,132 148,137 M 48,40 Q 230,28 273,80 Q 230,125 160,129" 
+                  stroke="url(#goldGrad)" stroke-width="4" stroke-linecap="round" fill="none" filter="url(#glow)"/>
+            
+            <!-- Premium Script Text Below -->
+            <text x="110" y="132" font-family="'Brush Script MT', cursive, sans-serif" font-style="italic" font-size="30" fill="url(#goldGrad)" text-anchor="middle">Premium</text>
+        </svg>
+        <div class="bg-black/80 px-2 py-0.5 rounded text-[10px] text-amber-300 border border-amber-500/40 font-mono mt-0.5 whitespace-nowrap">
+            <span id="route-indicator">HUB: Frankfurt ➔ New York</span>
+        </div>
+    </div>
+
+    <div class="relative z-20 pointer-events-none w-full h-screen flex flex-col justify-between p-4 md:p-6">
+        
+        <!-- Top Navigation & Branding Bar -->
+        <header class="hidden flex-col md:flex-row justify-between items-start md:items-center gap-4 pointer-events-auto">
+            <!-- Brand Logo Header -->
+            <div class="glass-panel gold-border-glow px-5 py-3 rounded-2xl flex items-center gap-4">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-300 via-amber-500 to-amber-700 flex items-center justify-center shadow-lg shadow-amber-500/20">
+                    <i class="fa-solid fa-server text-slate-950 text-xl">
+</i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="font-extrabold text-xl tracking-wider text-white">DREAM <span class="gold-badge">4K IPTV</span>
+</h1>
+                        <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping">
+</span>
+                            OFFICIAL SERVER PORTAL
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-400 font-mono">Global Ultra-Low Latency Backbone Node v4.2</p>
+                </div>
+            </div>
+
+            <!-- Server Metrics HUD Bar -->
+            <div class="glass-panel px-6 py-3 rounded-2xl flex items-center gap-6 text-xs font-mono border-amber-500/20">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-network-wired text-cyan-400 text-base">
+</i>
+                    <div>
+                        <div class="text-slate-400 uppercase text-[10px]">Active Hubs</div>
+                        <div class="text-white font-bold text-sm">48 Edge Nodes</div>
+                    </div>
+                </div>
+                <div class="h-7 w-px bg-slate-800">
+</div>
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-gauge-high text-emerald-400 text-base">
+</i>
+                    <div>
+                        <div class="text-slate-400 uppercase text-[10px]">Avg Latency</div>
+                        <div class="text-emerald-400 font-bold text-sm" id="metric-latency">11.4 ms</div>
+                    </div>
+                </div>
+                <div class="h-7 w-px bg-slate-800 hidden sm:block">
+</div>
+                <div class="flex items-center gap-3 hidden sm:flex">
+                    <i class="fa-solid fa-users text-amber-400 text-base">
+</i>
+                    <div>
+                        <div class="text-slate-400 uppercase text-[10px]">Active Streams</div>
+                        <div class="text-white font-bold text-sm" id="metric-streams">248,910</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Middle Content / Region Selector HUD -->
+        <div class="flex justify-center items-end pointer-events-auto">
+            <!-- Left Side Controls Panel -->
+            <div class="hidden glass-panel p-4 rounded-2xl max-w-xs w-full space-y-4 border-slate-800">
+                <div class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-2">
+                    <i class="fa-solid fa-earth-americas">
+</i> Target Hub Quick-Jump
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-xs font-medium">
+                    <button onclick="focusCity('frankfurt')" class="bg-slate-800/80 hover:bg-amber-500/20 hover:border-amber-500/50 border border-slate-700 p-2 rounded-xl text-left transition flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-blue-400">
+</span> Europe
+                    </button>
+                    <button onclick="focusCity('newyork')" class="bg-slate-800/80 hover:bg-amber-500/20 hover:border-amber-500/50 border border-slate-700 p-2 rounded-xl text-left transition flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-cyan-400">
+</span> N. America
+                    </button>
+                    <button onclick="focusCity('tokyo')" class="bg-slate-800/80 hover:bg-amber-500/20 hover:border-amber-500/50 border border-slate-700 p-2 rounded-xl text-left transition flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-rose-400">
+</span> Asia Pacific
+                    </button>
+                    <button onclick="focusCity('dubai')" class="bg-slate-800/80 hover:bg-amber-500/20 hover:border-amber-500/50 border border-slate-700 p-2 rounded-xl text-left transition flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-amber-400">
+</span> Middle East
+                    </button>
+                </div>
+
+                <!-- Controls Sliders -->
+                <div class="pt-2 border-t border-slate-800/80 space-y-3">
+                    <div>
+                        <div class="flex justify-between text-[11px] text-slate-400 mb-1">
+                            <span>Globe Rotation Speed</span>
+                            <span id="speed-val" class="text-white font-mono">1.0x</span>
+                        </div>
+                        <input type="range" id="rotation-slider" min="0" max="3" step="0.2" value="1" 
+                               class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-400">
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-[11px] text-slate-400 mb-1">
+                            <span>DREAM 4K Logo Travel Speed</span>
+                            <span id="logo-speed-val" class="text-white font-mono">1.0x</span>
+                        </div>
+                        <input type="range" id="logo-speed-slider" min="0.2" max="3" step="0.2" value="1" 
+                               class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-400">
+                    </div>
+                </div>
+            </div>
+
+            <div class="hidden flex gap-3 rounded-2xl border border-amber-400/25 bg-[#080d19]/80 p-3 backdrop-blur">
+                    <a href="subscriptions.html" class="flex-1 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold py-2.5 px-4 rounded-xl text-xs transition shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-bolt">
+</i> Instant Line Activation
+                    </a>
+                    <a href="reseller.html" class="bg-slate-800 hover:bg-slate-700 text-white font-semibold py-2.5 px-3 rounded-xl text-xs border border-slate-700 transition">
+                        Reseller Panel
+                    </a>
+            </div>
+        </div>
+
+        <!-- Bottom Status Bar -->
+        <footer class="flex justify-between items-center text-xs font-mono text-slate-500 pointer-events-auto">
+            <div class="flex items-center gap-4">
+                <span class="flex items-center gap-1.5 text-slate-400">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400">
+</span> Anti-Freeze Protocol v8.0 Active
+                </span>
+                <span class="hidden md:inline text-slate-600">|</span>
+                <span class="hidden md:inline text-slate-400">Xtream UI & M3U Direct Relay</span>
+            </div>
+            <div>
+                © 2026 DREAM 4K IPTV · <a href="https://wa.me/212670779271" class="hover:text-amber-300">WhatsApp</a> · <a href="https://t.me/premiumiptvpanelscom" class="hover:text-amber-300">Telegram</a>
+            </div>
+        </footer>
+    </div>
+    </section>
+
+    <section class="border-b border-amber-400/15 bg-[#060a13] px-5 py-8">
+<div class="mx-auto flex max-w-6xl flex-wrap justify-center gap-3">
+<a href="subscriptions.html" class="rounded-xl bg-amber-500 px-6 py-4 text-sm font-bold text-slate-950 hover:bg-amber-400">
+<i class="fa-solid fa-bolt mr-2">
+</i>Instant Line Activation</a>
+<a href="reseller.html" class="rounded-xl border border-amber-400/40 bg-[#111b2b] px-6 py-4 text-sm font-bold text-white hover:bg-[#182438]">Reseller Panel</a>
+</div>
+</section>
+
+    <section class="border-y border-white/10 bg-[#081020] px-5 py-20 md:px-10">
+        <div class="mx-auto max-w-6xl">
+            <div class="flex flex-wrap items-end justify-between gap-5">
+<div>
+<p class="font-mono text-xs tracking-[.2em] text-amber-300">DREAM 4K IPTV ACCESS</p>
+<h2 class="mt-3 text-3xl font-extrabold md:text-4xl">Everything you need, one clear path.</h2>
+</div>
+<p class="max-w-md text-sm leading-7 text-slate-400">Pick a direct subscription for personal viewing or access wholesale credits for your reseller operation.</p>
+</div>
+            <div class="mt-9 grid gap-5 md:grid-cols-2">
+<a href="subscriptions.html" class="glass-panel rounded-2xl p-7 transition hover:border-amber-400/60">
+<p class="font-mono text-xs text-amber-300">DIRECT SUBSCRIPTIONS</p>
+<h3 class="mt-3 text-2xl font-bold">1, 3, 6 &amp; 12 month plans</h3>
+<ul class="mt-5 grid grid-cols-2 gap-3 text-sm text-slate-300">
+<li>✓ 32,000+ Channels</li>
+<li>✓ Movies &amp; Series</li>
+<li>✓ EPG Included</li>
+<li>✓ Full HD &amp; 4K</li>
+<li>✓ 24/7 Support</li>
+</ul>
+<span class="mt-7 inline-block font-bold text-amber-300">Browse plans</span>
+</a>
+<a href="reseller.html" class="glass-panel rounded-2xl p-7 transition hover:border-amber-400/60">
+<p class="font-mono text-xs text-amber-300">RESELLER PANEL</p>
+<h3 class="mt-3 text-2xl font-bold">Credits, trials &amp; line controls</h3>
+<ul class="mt-5 grid grid-cols-2 gap-3 text-sm text-slate-300">
+<li>✓ 120 credits €145</li>
+<li>✓ 10–15 daily trials</li>
+<li>✓ Manage customer lines</li>
+<li>✓ Subreseller controls</li>
+<li>✓ Sales support</li>
+</ul>
+<span class="mt-7 inline-block font-bold text-amber-300">Open reseller access</span>
+</a>
+</div>
+        </div>
+    </section>
+
+    <section class="bg-[#050811] px-5 py-20 md:px-10">
+        <div class="mx-auto max-w-6xl">
+<div class="mb-10 flex flex-wrap items-end justify-between gap-5">
+<div>
+<p class="font-mono text-xs tracking-[.2em] text-amber-300">DIRECT SUBSCRIPTION PLANS</p>
+<h2 class="mt-3 text-3xl font-extrabold md:text-4xl">Choose your viewing duration.</h2>
+</div>
+<p class="max-w-md text-sm leading-7 text-slate-400">One connection per plan. Every plan includes the same premium content and support features.</p>
+</div>
+<div class="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+<article class="glass-panel rounded-2xl p-6">
+<h3 class="text-xl font-bold">1 Month</h3>
+<p class="mt-3 text-3xl font-extrabold text-amber-300">€10</p>
+<ul class="mt-6 space-y-2 text-sm text-slate-300">
+<li>32,000+ channels</li>
+<li>Movies &amp; series</li>
+<li>EPG included</li>
+<li>Full HD &amp; 4K</li>
+<li>24/7 support</li>
+</ul>
+<a href="subscriptions.html" class="mt-7 block rounded-lg border border-amber-400/40 py-3 text-center text-sm font-bold text-amber-200">Choose plan</a>
+</article>
+<article class="glass-panel rounded-2xl p-6">
+<h3 class="text-xl font-bold">3 Months</h3>
+<p class="mt-3 text-3xl font-extrabold text-amber-300">€20</p>
+<ul class="mt-6 space-y-2 text-sm text-slate-300">
+<li>32,000+ channels</li>
+<li>Movies &amp; series</li>
+<li>EPG included</li>
+<li>Full HD &amp; 4K</li>
+<li>24/7 support</li>
+</ul>
+<a href="subscriptions.html" class="mt-7 block rounded-lg border border-amber-400/40 py-3 text-center text-sm font-bold text-amber-200">Choose plan</a>
+</article>
+<article class="glass-panel gold-border-glow rounded-2xl p-6">
+<h3 class="text-xl font-bold">6 Months</h3>
+<p class="mt-3 text-3xl font-extrabold text-amber-300">€30</p>
+<ul class="mt-6 space-y-2 text-sm text-slate-300">
+<li>32,000+ channels</li>
+<li>Movies &amp; series</li>
+<li>EPG included</li>
+<li>Full HD &amp; 4K</li>
+<li>24/7 support</li>
+</ul>
+<a href="subscriptions.html" class="mt-7 block rounded-lg bg-amber-500 py-3 text-center text-sm font-bold text-slate-950">Choose plan</a>
+</article>
+<article class="glass-panel rounded-2xl p-6">
+<h3 class="text-xl font-bold">12 Months</h3>
+<p class="mt-3 text-3xl font-extrabold text-amber-300">€45</p>
+<ul class="mt-6 space-y-2 text-sm text-slate-300">
+<li>32,000+ channels</li>
+<li>Movies &amp; series</li>
+<li>EPG included</li>
+<li>Full HD &amp; 4K</li>
+<li>24/7 support</li>
+</ul>
+<a href="subscriptions.html" class="mt-7 block rounded-lg border border-amber-400/40 py-3 text-center text-sm font-bold text-amber-200">Choose plan</a>
+</article>
+</div>
+</div>
+    </section>
+
+    <section class="border-y border-amber-400/15 bg-[#0a1020] px-5 py-20 md:px-10">
+<div class="mx-auto grid max-w-6xl gap-8 lg:grid-cols-2">
+<div>
+<p class="font-mono text-xs tracking-[.2em] text-amber-300">WHOLESALE RESELLER ACCESS</p>
+<h2 class="mt-3 text-3xl font-extrabold">Build your IPTV operation.</h2>
+<p class="mt-5 leading-7 text-slate-300">Manage credits, customer lines, and subresellers from the dedicated panel. Resellers can create 10–15 trials a day and request larger credit bundles directly from sales.</p>
+<a href="reseller.html" class="mt-7 inline-block rounded-xl bg-amber-500 px-6 py-4 text-sm font-bold text-slate-950">Access reseller plans</a>
+</div>
+<div class="grid gap-4 sm:grid-cols-2">
+<div class="glass-panel rounded-xl p-5">
+<p class="text-sm text-slate-400">Starter package</p>
+<b class="mt-2 block text-2xl">120 credits</b>
+<p class="mt-1 text-amber-300">€145</p>
+</div>
+<div class="glass-panel rounded-xl p-5">
+<p class="text-sm text-slate-400">Volume packages</p>
+<b class="mt-2 block text-2xl">240–1200+</b>
+<p class="mt-1 text-amber-300">Contact sales</p>
+</div>
+<div class="glass-panel rounded-xl p-5">
+<b>Line management</b>
+<p class="mt-2 text-sm text-slate-400">Add and manage customer lines.</p>
+</div>
+<div class="glass-panel rounded-xl p-5">
+<b>Subresellers</b>
+<p class="mt-2 text-sm text-slate-400">Create accounts and manage access.</p>
+</div>
+</div>
+</div>
+</section>
+
+    <section class="bg-[#050811] px-5 py-20 md:px-10">
+<div class="mx-auto max-w-4xl rounded-3xl border border-amber-400/30 bg-gradient-to-br from-amber-500/15 to-[#0b1020] p-8 text-center md:p-12">
+<p class="font-mono text-xs tracking-[.2em] text-amber-300">TRY DREAM 4K IPTV</p>
+<h2 class="mt-3 text-3xl font-extrabold md:text-4xl">Request a 24-hour trial.</h2>
+<p class="mx-auto mt-4 max-w-xl leading-7 text-slate-300">Test the service on your device before choosing a subscription. Contact support on WhatsApp to request your 24-hour trial.</p>
+<a href="https://wa.me/212670779271" class="mt-7 inline-flex items-center rounded-xl bg-amber-500 px-6 py-4 text-sm font-bold text-slate-950 hover:bg-amber-400">Request trial on WhatsApp</a>
+</div>
+</section>
+
+    <footer id="contact" class="bg-[#03060d] px-5 py-12 text-center text-sm text-slate-500">
+<p class="font-bold tracking-[.18em] text-white">DREAM 4K IPTV</p>
+<p class="mt-3">Direct subscriptions and reseller panel access.</p>
+<div class="mt-5 flex flex-wrap justify-center gap-5">
+<a href="https://wa.me/212670779271" class="text-amber-300 hover:text-amber-200">WhatsApp +212 670-779271</a>
+<a href="https://t.me/premiumiptvpanelscom" class="text-amber-300 hover:text-amber-200">Telegram</a>
+<a href="mailto:support@reselleriptv.com" class="text-amber-300 hover:text-amber-200">support@reselleriptv.com</a>
+</div>
+<div class="mt-6 flex flex-wrap justify-center gap-5 text-xs"><a href="terms.html" class="hover:text-amber-300">Terms of Service</a><a href="privacy.html" class="hover:text-amber-300">Privacy Policy</a><a href="refund.html" class="hover:text-amber-300">Refund Policy</a></div>
+</footer>
+
+    <script>
+        function typeMapText(element, speed, onComplete) {
+            const message = element.dataset.text;
+            let index = 0;
+            const timer = setInterval(() => {
+                element.textContent += message.charAt(index++);
+                if (index >= message.length) {
+                    clearInterval(timer);
+                    if (onComplete) onComplete();
+                }
+            }, speed);
+        }
+        typeMapText(document.getElementById('map-title'), 22, () => {
+            typeMapText(document.getElementById('map-description'), 13);
+        });
+        // --- 1. GLOBE & SCENE SETUP ---
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        
+        // Add atmospheric fog
+        scene.fog = new THREE.FogExp2(0x050811, 0.0015);
+
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 30, 280);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        container.appendChild(renderer.domElement);
+
+        // Orbit Controls
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableZoom = false;
+        controls.enablePan = false;
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.rotateSpeed = 0.8;
+        controls.minDistance = 120;
+        controls.maxDistance = 450;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 0.8;
+
+        // Group container for Earth components
+        const earthGroup = new THREE.Group();
+        scene.add(earthGroup);
+
+        const GLOBE_RADIUS = 80;
+
+        // --- 2. LIGHTING SETUP ---
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+        scene.add(ambientLight);
+
+        const mainLight = new THREE.DirectionalLight(0xffdf9e, 1.8);
+        mainLight.position.set(200, 100, 150);
+        scene.add(mainLight);
+
+        const blueRimLight = new THREE.DirectionalLight(0x00d2ff, 1.2);
+        blueRimLight.position.set(-200, -100, -150);
+        scene.add(blueRimLight);
+
+        // --- 3. PROCEDURAL TEXTURES & GLOBE MATERIALS ---
+        // Generate high-tech procedural Earth surface & dark continent grid canvas
+        function createEarthTexture() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 2048;
+            canvas.height = 1024;
+            const ctx = canvas.getContext('2d');
+
+            // Dark Deep Ocean Background
+            ctx.fillStyle = '#060a17';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Tech grid pattern across water
+            ctx.strokeStyle = 'rgba(15, 23, 42, 0.5)';
+            ctx.lineWidth = 1;
+            for (let x = 0; x < canvas.width; x += 32) {
+                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+            }
+            for (let y = 0; y < canvas.height; y += 32) {
+                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+            }
+
+            // Draw simplified stylized continent landmass shapes
+            ctx.fillStyle = '#111b33';
+            
+            // Draw land points for dark sleek server theme
+            for (let i = 0; i < 4000; i++) {
+                const u = Math.random();
+                const v = Math.random();
+                // Simple landmass density mapping simulation
+                const lat = (v - 0.5) * Math.PI;
+                const lon = u * Math.PI * 2;
+                
+                // Land approximation filters (North America, South America, Europe, Africa, Asia, Australia)
+                const isLand = (
+                    (lon > 1.5 && lon < 4.2 && lat > 0.1 && lat < 1.2) || // Eurasia
+                    (lon > 3.2 && lon < 5.2 && lat > -0.6 && lat < 0.6) || // Africa/Middle East
+                    (lon > -2.8 && lon < -0.8 && lat > 0.2 && lat < 1.2) || // North America
+                    (lon > -2.2 && lon < -1.0 && lat > -1.0 && lat < 0.1) || // South America
+                    (lon > 2.0 && lon < 3.0 && lat > -0.8 && lat < -0.2) // Australia
+                );
+
+                if (isLand) {
+                    const x = u * canvas.width;
+                    const y = v * canvas.height;
+                    ctx.beginPath();
+                    ctx.arc(x, y, 2 + Math.random() * 3, 0, Math.PI * 2);
+                    ctx.fillStyle = Math.random() > 0.3 ? '#1a294d' : '#223866';
+                    ctx.fill();
+                }
+            }
+
+            return new THREE.CanvasTexture(canvas);
+        }
+
+        // Earth Base Mesh
+        const earthGeometry = new THREE.SphereGeometry(GLOBE_RADIUS, 64, 64);
+        const earthMaterial = new THREE.MeshPhongMaterial({
+            map: createEarthTexture(),
+            shininess: 25,
+            bumpScale: 0.5,
+            specular: new THREE.Color(0x1e293b)
+        });
+        const earthMesh = new THREE.Mesh(earthGeometry, earthMaterial);
+        earthGroup.add(earthMesh);
+
+        // Glowing Atmosphere Shell
+        const atmosphereGeometry = new THREE.SphereGeometry(GLOBE_RADIUS + 2.5, 64, 64);
+        const atmosphereMaterial = new THREE.MeshBasicMaterial({
+            color: 0x38bdf8,
+            transparent: true,
+            opacity: 0.12,
+            side: THREE.BackSide
+        });
+        const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
+        earthGroup.add(atmosphere);
+
+        // Tech Outer Particle Shell
+        const particleCount = 1200;
+        const particleGeo = new THREE.BufferGeometry();
+        const particlePositions = new Float32Array(particleCount * 3);
+        for(let i = 0; i < particleCount * 3; i += 3) {
+            const u = Math.random();
+            const v = Math.random();
+            const theta = u * Math.PI * 2;
+            const phi = Math.acos(2 * v - 1);
+            const r = GLOBE_RADIUS + 8 + Math.random() * 18;
+
+            particlePositions[i] = r * Math.sin(phi) * Math.cos(theta);
+            particlePositions[i+1] = r * Math.sin(phi) * Math.sin(theta);
+            particlePositions[i+2] = r * Math.cos(phi);
+        }
+        particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+        const particleMat = new THREE.PointsMaterial({
+            color: 0xd4af37,
+            size: 1.2,
+            transparent: true,
+            opacity: 0.4
+        });
+        const particleCloud = new THREE.Points(particleGeo, particleMat);
+        earthGroup.add(particleCloud);
+
+        // --- 4. GLOBAL SERVER HUB LOCATIONS & COORDINATES ---
+        const CITY_HUBS = {
+            frankfurt: { name: "Frankfurt Hub", lat: 50.1109, lon: 8.6821, color: 0x38bdf8 },
+            london:    { name: "London Node", lat: 51.5074, lon: -0.1278, color: 0x38bdf8 },
+            newyork:   { name: "New York Hub", lat: 40.7128, lon: -74.0060, color: 0x22d3ee },
+            tokyo:     { name: "Tokyo Edge", lat: 35.6762, lon: 139.6503, color: 0xf43f5e },
+            singapore: { name: "Singapore Node", lat: 1.3521, lon: 103.8198, color: 0xf43f5e },
+            dubai:     { name: "Dubai Core", lat: 25.2048, lon: 55.2708, color: 0xf59e0b },
+            sydney:    { name: "Sydney Relay", lat: -33.8688, lon: 151.2093, color: 0xa855f7 },
+            saopaulo:  { name: "Sao Paulo Node", lat: -23.5505, lon: -46.6333, color: 0x10b981 }
+        };
+
+        // Helper: Convert Lat/Lon to 3D Vector Position on Globe
+        function latLonToVector3(lat, lon, radius) {
+            const phi = (90 - lat) * (Math.PI / 180);
+            const theta = (lon + 180) * (Math.PI / 180);
+            const x = -(radius * Math.sin(phi) * Math.cos(theta));
+            const z = (radius * Math.sin(phi) * Math.sin(theta));
+            const y = (radius * Math.cos(phi));
+            return new THREE.Vector3(x, y, z);
+        }
+
+        // Render City Hub Markers (Pulsing Rings & Beams)
+        const cityNodesMap = {};
+        Object.keys(CITY_HUBS).forEach(key => {
+            const hub = CITY_HUBS[key];
+            const pos = latLonToVector3(hub.lat, hub.lon, GLOBE_RADIUS);
+
+            // Node Dot
+            const dotGeo = new THREE.SphereGeometry(1.4, 16, 16);
+            const dotMat = new THREE.MeshBasicMaterial({ color: 0xffd700 });
+            const dotMesh = new THREE.Mesh(dotGeo, dotMat);
+            dotMesh.position.copy(pos);
+            earthGroup.add(dotMesh);
+
+            // Outer Pulsing Glow Ring
+            const ringGeo = new THREE.RingGeometry(1.8, 3.2, 32);
+            const ringMat = new THREE.MeshBasicMaterial({ 
+                color: hub.color, 
+                side: THREE.DoubleSide, 
+                transparent: true, 
+                opacity: 0.8 
+            });
+            const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+            ringMesh.position.copy(pos);
+            ringMesh.lookAt(pos.clone().multiplyScalar(2));
+            earthGroup.add(ringMesh);
+
+            // Vertical Light Beacon Beam
+            const beamGeo = new THREE.CylinderGeometry(0.2, 0.6, 12, 16);
+            beamGeo.translate(0, 6, 0);
+            beamGeo.rotateX(Math.PI / 2);
+            const beamMat = new THREE.MeshBasicMaterial({
+                color: 0xffd700,
+                transparent: true,
+                opacity: 0.6
+            });
+            const beamMesh = new THREE.Mesh(beamGeo, beamMat);
+            beamMesh.position.copy(pos);
+            beamMesh.lookAt(pos.clone().multiplyScalar(2));
+            earthGroup.add(beamMesh);
+
+            cityNodesMap[key] = { pos, name: hub.name, ringMesh };
+        });
+
+        // --- 5. CURVED SERVER FLIGHT ARCS & CONNECTION ROUTES ---
+        const ROUTES = [
+            { from: 'frankfurt', to: 'newyork' },
+            { from: 'newyork', to: 'saopaulo' },
+            { from: 'frankfurt', to: 'dubai' },
+            { from: 'dubai', to: 'singapore' },
+            { from: 'singapore', to: 'tokyo' },
+            { from: 'tokyo', to: 'sydney' },
+            { from: 'london', to: 'frankfurt' },
+            { from: 'london', to: 'newyork' }
+        ];
+
+        const flightCurves = [];
+
+        ROUTES.forEach(route => {
+            const startPos = cityNodesMap[route.from].pos;
+            const endPos = cityNodesMap[route.to].pos;
+
+            // Calculate Arc Control Midpoint (elevated above globe surface)
+            const distance = startPos.distanceTo(endPos);
+            const mid = startPos.clone().add(endPos).multiplyScalar(0.5);
+            const midLength = mid.length();
+            mid.normalize();
+            mid.multiplyScalar(GLOBE_RADIUS + distance * 0.35); // Arc height proportional to distance
+
+            // Quadratic Bezier Curve for smooth flight path
+            const curve = new THREE.QuadraticBezierCurve3(startPos, mid, endPos);
+            flightCurves.push({
+                curve: curve,
+                fromName: CITY_HUBS[route.from].name,
+                toName: CITY_HUBS[route.to].name
+            });
+
+            // Draw glowing arc line
+            const points = curve.getPoints(50);
+            const arcGeo = new THREE.BufferGeometry().setFromPoints(points);
+            const arcMat = new THREE.LineBasicMaterial({
+                color: 0xd4af37,
+                transparent: true,
+                opacity: 0.45,
+                linewidth: 1.5
+            });
+            const arcLine = new THREE.Line(arcGeo, arcMat);
+            earthGroup.add(arcLine);
+        });
+
+        // --- 6. DREAM 4K GOLD LOGO TRAVELING ANIMATION LOGIC ---
+        let currentRouteIndex = 0;
+        let routeProgress = 0;
+        let logoTravelSpeed = 0.003; // Base travel speed along curve
+        let globeRotationSpeedSetting = 1.0;
+
+        const logoElement = document.getElementById('traveling-logo');
+        const routeIndicator = document.getElementById('route-indicator');
+
+        function updateTravelingLogoPosition() {
+            if (flightCurves.length === 0) return;
+
+            const activeRoute = flightCurves[currentRouteIndex];
+            routeProgress += logoTravelSpeed;
+
+            if (routeProgress >= 1) {
+                routeProgress = 0;
+                // Move to next server connection route
+                currentRouteIndex = (currentRouteIndex + 1) % flightCurves.length;
+            }
+
+            // Get 3D Point along Bezier Curve
+            const point3D = activeRoute.curve.getPoint(routeProgress);
+            
+            // Transform point from local earthGroup rotation to World Coordinates
+            const worldPoint = point3D.clone().applyMatrix4(earthGroup.matrixWorld);
+
+            // Project 3D Point to 2D Screen Space (Pixels)
+            const projectedPoint = worldPoint.clone().project(camera);
+
+            // Check if point is on the front side of the Earth (occlusion check)
+            const raycaster = new THREE.Raycaster();
+            const dir = worldPoint.clone().sub(camera.position).normalize();
+            raycaster.set(camera.position, dir);
+            const intersects = raycaster.intersectObject(earthMesh);
+
+            // Is visible on screen & not behind globe
+            const isBehindGlobe = intersects.length > 0 && intersects[0].distance < camera.position.distanceTo(worldPoint) - 2;
+
+            if (!isBehindGlobe && projectedPoint.z < 1) {
+                const x = (projectedPoint.x * 0.5 + 0.5) * window.innerWidth;
+                const y = (-(projectedPoint.y * 0.5) + 0.5) * window.innerHeight;
+
+                logoElement.style.left = `${x}px`;
+                logoElement.style.top = `${y}px`;
+                logoElement.style.opacity = '1';
+
+                routeIndicator.innerText = `IPTV STREAM: ${activeRoute.fromName} ➔ ${activeRoute.toName}`;
+            } else {
+                logoElement.style.opacity = '0'; // Hide when behind globe
+            }
+        }
+
+        // --- 7. INTERACTIVE HUB JUMP FUNCTION ---
+        window.focusCity = function(cityKey) {
+            if (!CITY_HUBS[cityKey]) return;
+            controls.autoRotate = false; // Temporarily pause auto rotation
+            
+            const hub = CITY_HUBS[cityKey];
+            const targetPos = latLonToVector3(hub.lat, hub.lon, camera.position.length());
+
+            // Smooth camera transition using linear interpolation in render loop
+            const duration = 1200;
+            const startTime = performance.now();
+            const startCamPos = camera.position.clone();
+
+            function animateCamera(now) {
+                const elapsed = now - startTime;
+                const t = Math.min(elapsed / duration, 1);
+                // Ease out cubic
+                const ease = 1 - Math.pow(1 - t, 3);
+
+                camera.position.lerpVectors(startCamPos, targetPos, ease);
+                camera.lookAt(0, 0, 0);
+
+                if (t < 1) {
+                    requestAnimationFrame(animateCamera);
+                } else {
+                    setTimeout(() => { controls.autoRotate = true; }, 3000);
+                }
+            }
+            requestAnimationFrame(animateCamera);
+        };
+
+        // --- 8. UI CONTROLS LISTENERS ---
+        document.getElementById('rotation-slider').addEventListener('input', (e) => {
+            const val = parseFloat(e.target.value);
+            globeRotationSpeedSetting = val;
+            controls.autoRotateSpeed = 0.8 * val;
+            document.getElementById('speed-val').innerText = `${val.toFixed(1)}x`;
+        });
+
+        document.getElementById('logo-speed-slider').addEventListener('input', (e) => {
+            const val = parseFloat(e.target.value);
+            logoTravelSpeed = 0.003 * val;
+            document.getElementById('logo-speed-val').innerText = `${val.toFixed(1)}x`;
+        });
+
+        // Dynamic Real-time Metric Oscillations
+        setInterval(() => {
+            const latency = (10.5 + Math.random() * 2.5).toFixed(1);
+            const streams = (248000 + Math.floor(Math.random() * 2500)).toLocaleString();
+            document.getElementById('metric-latency').innerText = `${latency} ms`;
+            document.getElementById('metric-streams').innerText = streams;
+        }, 3000);
+
+        // Window Resize Handler
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // --- 9. MAIN ANIMATION LOOP ---
+        let clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const elapsedTime = clock.getElapsedTime();
+
+            // Auto rotation of Earth group
+            earthGroup.rotation.y += 0.0015 * globeRotationSpeedSetting;
+
+            // Pulse Node Rings
+            Object.values(cityNodesMap).forEach((node, idx) => {
+                const scale = 1 + Math.sin(elapsedTime * 3 + idx) * 0.25;
+                node.ringMesh.scale.set(scale, scale, scale);
+            });
+
+            // Update Orbit Controls
+            controls.update();
+
+            // Update Traveling DREAM 4K Badge Position
+            updateTravelingLogoPosition();
+
+            // Render 3D Scene
+            renderer.render(scene, camera);
+        }
+
+        // Start scene after window load
+        window.onload = function() {
+            animate();
+        };
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const button = document.querySelector('.menu-toggle');
+        const menu = document.querySelector('.site-nav');
+        if (!button || !menu) return;
+        button.addEventListener('click', () => {
+          const isOpen = menu.classList.toggle('is-open');
+          button.setAttribute('aria-expanded', String(isOpen));
+        });
+      });
+    </script>
+</body>
+</html>
+
